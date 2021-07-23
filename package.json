@@ -2,6 +2,9 @@
   "name": "nodeauth",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "15.x"
+  },
   "scripts": {
     "start": "node app.js"
   },
