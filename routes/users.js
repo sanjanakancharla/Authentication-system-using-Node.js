@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({dest: './uploads'});
+const { check, validationResult } = require('express-validator');
 
 var User = require('../models/user');
 
@@ -42,12 +43,11 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
   req.checkBody('password2','Passwords do not match').equals(req.body.password);
 
   // Check Errors
-  var errors = req.validationErrors();
+  const errors = validationResult(req);
 
   if(errors){
-  	res.render('register', {
-  		errors: errors
-  	});
+    res.render('register', { errors: errors.array() });
+
   } else{
   	var newUser = new User({
       name1: name,

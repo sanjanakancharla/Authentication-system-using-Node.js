@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var session = require('cookie-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var expressValidator = require('express-validator');
+const { check, validationResult } = require('express-validator');
 var multer = require('multer');
 var upload = multer({dest: './uploads'});
 var flash = require('connect-flash');
@@ -42,23 +42,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Validator
-app.use(expressValidator({
-  errorFormatter: function(param, msg, value) {
-      var namespace = param.split('.')
-      , root    = namespace.shift()
-      , formParam = root;
 
-    while(namespace.length) {
-      formParam += '[' + namespace.shift() + ']';
-    }
-    return {
-      param : formParam,
-      msg   : msg,
-      value : value
-    };
-  }
-}));
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
